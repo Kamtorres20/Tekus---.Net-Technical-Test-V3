@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Net_Technical_Test_V3.Models.Client>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <th style="display:none">Item</th>
+                <th>Fecha</th>
+                <th>Tiempo</th>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+            {
+                        <tr style="font-size:x-small">
+
+                            <td style="text-align: center;width:80px">@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td style="text-align: center;width:30px">@Html.DisplayFor(modelItem => item.Email)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</div>
