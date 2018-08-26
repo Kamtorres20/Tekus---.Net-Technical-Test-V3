@@ -21,8 +21,12 @@ namespace Net_Technical_Test_V3.Controllers
             _context = context;
         }
 
+        public ActionResult SetResetDb(string db)
+        {
+            HomeDAO.SetResetDB(db);
+            return View();
+        }
 
 
-      
-    }
+        }
 }
