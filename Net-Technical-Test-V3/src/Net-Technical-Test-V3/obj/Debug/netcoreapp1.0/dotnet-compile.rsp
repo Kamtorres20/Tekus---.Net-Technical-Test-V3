@@ -207,11 +207,15 @@ C:\Users\servidor\Source\Repos\Tekus---.Net-Technical-Test-V3\Net-Technical-Test
 C:\Users\servidor\Source\Repos\Tekus---.Net-Technical-Test-V3\Net-Technical-Test-V3\src\Net-Technical-Test-V3\Program.cs
 C:\Users\servidor\Source\Repos\Tekus---.Net-Technical-Test-V3\Net-Technical-Test-V3\src\Net-Technical-Test-V3\Startup.cs
 C:\Users\servidor\Source\Repos\Tekus---.Net-Technical-Test-V3\Net-Technical-Test-V3\src\Net-Technical-Test-V3\Controllers\ClientController.cs
+C:\Users\servidor\Source\Repos\Tekus---.Net-Technical-Test-V3\Net-Technical-Test-V3\src\Net-Technical-Test-V3\Controllers\CountryController.cs
 C:\Users\servidor\Source\Repos\Tekus---.Net-Technical-Test-V3\Net-Technical-Test-V3\src\Net-Technical-Test-V3\Controllers\HomeController.cs
+C:\Users\servidor\Source\Repos\Tekus---.Net-Technical-Test-V3\Net-Technical-Test-V3\src\Net-Technical-Test-V3\Controllers\PaisController.cs
 C:\Users\servidor\Source\Repos\Tekus---.Net-Technical-Test-V3\Net-Technical-Test-V3\src\Net-Technical-Test-V3\Controllers\ServiceController.cs
 C:\Users\servidor\Source\Repos\Tekus---.Net-Technical-Test-V3\Net-Technical-Test-V3\src\Net-Technical-Test-V3\Models\ApplicationDbContext.cs
 C:\Users\servidor\Source\Repos\Tekus---.Net-Technical-Test-V3\Net-Technical-Test-V3\src\Net-Technical-Test-V3\Models\Client.cs
 C:\Users\servidor\Source\Repos\Tekus---.Net-Technical-Test-V3\Net-Technical-Test-V3\src\Net-Technical-Test-V3\Models\ClientsDAO.cs
 C:\Users\servidor\Source\Repos\Tekus---.Net-Technical-Test-V3\Net-Technical-Test-V3\src\Net-Technical-Test-V3\Models\Country.cs
+C:\Users\servidor\Source\Repos\Tekus---.Net-Technical-Test-V3\Net-Technical-Test-V3\src\Net-Technical-Test-V3\Models\CountryDAO.cs
+C:\Users\servidor\Source\Repos\Tekus---.Net-Technical-Test-V3\Net-Technical-Test-V3\src\Net-Technical-Test-V3\Models\FilterService.cs
 C:\Users\servidor\Source\Repos\Tekus---.Net-Technical-Test-V3\Net-Technical-Test-V3\src\Net-Technical-Test-V3\Models\Service.cs
 C:\Users\servidor\Source\Repos\Tekus---.Net-Technical-Test-V3\Net-Technical-Test-V3\src\Net-Technical-Test-V3\Models\ServiceDAO.cs

@@ -15,6 +15,7 @@ namespace Net_Technical_Test_V3.Models
 
         public DbSet<Client> Clients { get; set; }
         public DbSet<Service> Services { get; set; }
+
         public DbSet<Country> Countrys { get; set; }
     }
 }

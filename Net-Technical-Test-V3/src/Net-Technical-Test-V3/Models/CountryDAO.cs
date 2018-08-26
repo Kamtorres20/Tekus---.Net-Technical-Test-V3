@@ -1,25 +1,25 @@
-﻿using System.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Net_Technical_Test_V3.Models
 {
-    public class ServiceDAO
+    public class CountryDAO
     {
-
-        public static List<Service> SetService(Service datos, int acc)
+        public static List<Country> SetPais(Country datos, int acc)
         {
 
-            List<Service> Listserv = new List<Service>();
+            List<Country> ListCountry = new List<Country>();
             SqlCommand comm = Config.CreateCommand();
             comm.CommandText = "sp_Set_Services";
             comm.Parameters.Clear();
             comm.Parameters.AddWithValue("@id", datos.Id);
-            comm.Parameters.AddWithValue("@Id_Client", datos.Id_client);
+            comm.Parameters.AddWithValue("@Id_Serv", datos.Id_serv);
             comm.Parameters.AddWithValue("@Name", datos.Name);
-            comm.Parameters.AddWithValue("@HraUsd", datos.hrsUSD);
-         
+           
+
             comm.Parameters.AddWithValue("@accion", acc);
 
 
@@ -27,21 +27,19 @@ namespace Net_Technical_Test_V3.Models
             SqlDataReader reader = comm.ExecuteReader();
             while (reader.Read())
             {
-                Listserv.Add(
-                     new Service
+                ListCountry.Add(
+                     new Country
                      {
                          Id = Convert.ToInt32(reader["Id"]),
-                         Id_client = Convert.ToInt32(reader["Id_Client"]),
-                         Name = Convert.ToString(reader["Name"]),
-                         hrsUSD = Convert.ToString(reader["HraUsd"]),                    
+                         Id_serv = Convert.ToInt32(reader["Id_Client"]),
+                         Name = Convert.ToString(reader["Name"]),                        
                      });
             }
             comm.Connection.Close();
 
-            return Listserv;
+            return ListCountry;
 
 
         }
-
     }
 }

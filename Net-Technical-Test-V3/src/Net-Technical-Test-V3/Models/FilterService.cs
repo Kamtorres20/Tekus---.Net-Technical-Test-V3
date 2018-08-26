@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Net_Technical_Test_V3.Models
 {
-    public class Service
+    public class FilterService
     {
         public int Id { get; set; }
         public int Id_client { get; set; }
