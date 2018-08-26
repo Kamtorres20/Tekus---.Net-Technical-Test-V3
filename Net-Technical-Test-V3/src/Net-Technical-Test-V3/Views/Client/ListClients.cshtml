@@ -21,10 +21,13 @@
                     @foreach (var item in Model)
             {
                         <tr style="font-size:x-small">
-                            <td style="text-align: center;width:80px"><a href="#" class="btn btn-warning btn-sm edit" style="font-size:xx-small">Editar</a>
-                            <a href="#" class="btn btn-danger btn-sm delete" style="font-size:xx-small">Delete</a></td>
+                            <td style="text-align: center;width:80px">
+                                <a href="#" class="btn btn-warning btn-sm edit" style="font-size:x-small">Editar</a>
+                                <a href="#" class="btn btn-danger btn-sm delete" style="font-size:x-small">Delete</a>
+                                <a href="#" class="btn btn-info btn-sm service" style="font-size:x-small">Services</a>
+                            </td>
                             <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                            <td >@Html.DisplayFor(modelItem => item.Nit)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Nit)</td>
                             <td>@Html.DisplayFor(modelItem => item.Name)</td>
                             <td>@Html.DisplayFor(modelItem => item.Email)</td>
                         </tr>

@@ -13,7 +13,7 @@ namespace Net_Technical_Test_V3.Models
 
             List<Service> Listserv = new List<Service>();
             SqlCommand comm = Config.CreateCommand();
-            comm.CommandText = "sp_Set_Clients";
+            comm.CommandText = "sp_Set_Services";
             comm.Parameters.Clear();
             comm.Parameters.AddWithValue("@id", datos.Id);
             comm.Parameters.AddWithValue("@Id_Client", datos.Id_client);

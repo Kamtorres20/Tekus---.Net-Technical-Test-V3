@@ -1,12 +1,28 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Pagina Principal";
 }
 
 @section Scripts {
 <script type="text/javascript">
+    $(document).ready(function () {
+       
+
+
+
+
+    })
         function openModal(val) {
-            if (val == 'Client') { $("#modalClient").modal("show"); }
-            if (val == 'Service') { $("#modalService").modal("show"); }
+            if (val == 'Client') {
+                clearClient();
+                GetClients('');
+                $("#modalClient").modal("show");
+            }
+            if (val == 'Service') {
+                clearClient();
+                GetClients('ddl');
+                $("#modalService").modal("show");
+            }
 
         }
 
@@ -43,12 +59,20 @@
         });
     }
 
-    function GetClients() {
+    function SetService() {
+
+     
+      
+        var id = $("#inpidS").val() == "" ? 0 : $("#inpidS").val();
+        var nametext = $("#inpnameService").val();
+        var clienttext = $("#ddlClient").val();
+        var vlrhrstext = $("#inpVlrHrsService").val();
         var database = $("#ddlDB").val();
+
         $.ajax({
-            url: '@Url.Action("GetClients", "Client")',
-            data: { db: database },
+            url: '@Url.Action("SetService", "Service")',
             type: "post",
+            data: { id: id, Name: nametext, idclient: clienttext, Horavlr: vlrhrstext, db: database },
             cache: false,
             success: function (retorno) {
 
@@ -63,6 +87,45 @@
                     $("#inpnit").val(nit);
                     $("#inpemail").val(email);
                 });
+                $('a.service').click(function () {
+                    var cod = $(this).parents("tr").find("td").eq(1).html();
+                    openModal('');
+                });
+
+                
+                clearClient();
+            },
+            error: function () {
+                alert("Se ha producido un error");
+            }
+        });
+    }
+
+    function GetClients(acc) {
+        var database = $("#ddlDB").val();
+        $.ajax({
+            url: '@Url.Action("GetClients", "Client")',
+            data: { db: database, acc: acc },
+            type: "post",
+            cache: false,
+            success: function (retorno) {
+                if (acc != "ddl") {
+                    $("#listClients").html(retorno);
+                    $('a.edit').click(function () {
+                        var cod = $(this).parents("tr").find("td").eq(1).html();
+                        var nit = $(this).parents("tr").find("td").eq(2).html();
+                        var name = $(this).parents("tr").find("td").eq(3).html();
+                        var email = $(this).parents("tr").find("td").eq(4).html();
+                        $("#inpid").val(cod);
+                        $("#inpname").val(name);
+                        $("#inpnit").val(nit);
+                        $("#inpemail").val(email);
+                    });
+                } else {
+                    $("#dvddlClient").html(retorno);
+
+                }
+               
 
             },
             error: function () {
@@ -83,8 +146,14 @@
 }
 
 <div class="row">
-    <div class="col-lg-12 ">
+    <div class="col-lg-9 ">
         <div class="well">hola mundo</div>
+    </div>
+    <div class="col-lg-3 ">
+        <select id="ddlDB" class="form-control">
+            <option value="out">Sql Server</option>
+            <option value="in">Memory Storage</option>
+        </select>
     </div>
 </div>
 
@@ -106,12 +175,7 @@
                         <span>Agregar Clientes</span>
                     </div>
                   
-                    <div class="col-lg-3 ">
-                        <select id="ddlDB" class="form-control">
-                            <option value="out">Sql Server</option>
-                            <option value="in">Memory Storage</option>
-                        </select>
-                    </div>
+                   
                 </div>
               
             </div>
@@ -141,7 +205,7 @@
                     <div class="col-lg-12 ">
                         <div class="input-group">
                             <input type="button" class="btn btn-success" value="Agregar" onclick="SetClients();" />
-                            <input type="button" class="btn btn-info" value="Consultar" onclick="GetClients();" />
+                            <input type="button" class="btn btn-info" value="Consultar" onclick="GetClients('Tbl');" />
                         </div>
                        
                     </div>
@@ -165,48 +229,43 @@
                     <div class="col-lg-2" style="margin-top:5px">
                         <span>Gestion Servicios</span>
                     </div>
-
-                    <div class="col-lg-3 ">
-                        <select id="ddlDB" class="form-control">
-                            <option value="out">Sql Server</option>
-                            <option value="in">Memory Storage</option>
-                        </select>
+                   
+                    <div class="col-lg-1" style="margin-top:5px">
+                        <span>Client</span>
                     </div>
+                    <div id="dvddlClient" class="col-lg-4 "></div>
                 </div>
 
             </div>
             <div class="modal-body">
-
+             
                 <div class="row" style="margin-top:10px">
 
                     <div class="col-lg-2 ">
                         <span>Id</span>
-                        <input id="inpid" type="text" class="form-control" disabled="disabled" />
+                        <input id="inpidS" type="text" class="form-control" disabled="disabled" />
                     </div>
-                    <div class="col-lg-2 ">
-                        <span>Nit</span>
-                        <input id="inpnit" type="text" class="form-control" />
-                    </div>
+                   
                     <div class="col-lg-4">
                         <span>Name</span>
-                        <input id="inpname" type="text" class="form-control" />
+                        <input id="inpnameService" type="text" class="form-control" />
                     </div>
                     <div class="col-lg-4 ">
-                        <span>Email</span>
-                        <input id="inpemail" type="text" class="form-control" />
+                        <span>Valor Horas</span>
+                        <input id="inpVlrHrsService" type="text" class="form-control" />
                     </div>
                 </div>
 
                 <div class="row" style="margin-top:10px">
                     <div class="col-lg-12 ">
                         <div class="input-group">
-                            <input type="button" class="btn btn-success" value="Agregar" onclick="SetClients();" />
-                            <input type="button" class="btn btn-info" value="Consultar" onclick="GetClients();" />
+                            <input type="button" class="btn btn-success" value="Agregar" onclick="SetService();" />
+                            <input type="button" class="btn btn-info" value="Consultar" onclick="GetClients('Tbl');" />
                         </div>
 
                     </div>
                 </div>
-                <div id="listClients" style="margin-top:10px"></div>
+                <div id="listService" style="margin-top:10px"></div>
 
 
             </div>

@@ -17,7 +17,7 @@ namespace Net_Technical_Test_V3.Controllers
             _context = context;
         }
 
-        public ActionResult SetService(int id, string Name, string Horavlr, string db)
+        public ActionResult SetService(int id, int idclient, string Name, string Horavlr, string db)
         {
 
 
@@ -42,11 +42,12 @@ namespace Net_Technical_Test_V3.Controllers
                     _context.SaveChanges();
                 }
 
-                return PartialView("~/Views/Client/ListClients.cshtml", _context.Clients);
+                return PartialView("~/Views/Client/ListService.cshtml", _context.Clients);
             }
             else
             {
                 Service Serv = new Models.Service();
+                Serv.Id_client = idclient;
                 Serv.Name = Name;
                 Serv.hrsUSD = Horavlr;
                
@@ -54,7 +55,7 @@ namespace Net_Technical_Test_V3.Controllers
                 if (id != 0) { acc = id; }
 
 
-                return PartialView("~/Views/Client/ListClients.cshtml", ClientsDAO.SetClient(Serv, acc, id));
+                return PartialView("~/Views/Client/ListService.cshtml", ServiceDAO.SetService(Serv, acc, id));
             }
 
         }

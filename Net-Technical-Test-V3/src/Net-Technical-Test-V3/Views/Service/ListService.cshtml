@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Net_Technical_Test_V3.Models.Service>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <th style="width:20%" >Item</th>
+                <th style="width:10%">ID</th>           
+                <th style="width:40%">Name</th>
+                <th style="width:20%">Vlr Hora (USD)</th>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+            {
+                        <tr style="font-size:x-small">
+                            <td style="text-align: center;width:80px"><a href="#" class="btn btn-warning btn-sm editServ" style="font-size:xx-small">Editar</a>
+                            <a href="#" class="btn btn-danger btn-sm deleteServ" style="font-size:xx-small">Delete</a></td>
+                            <td>@Html.DisplayFor(modelItem => item.Id)</td>                            
+                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.hrsUSD)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</div>

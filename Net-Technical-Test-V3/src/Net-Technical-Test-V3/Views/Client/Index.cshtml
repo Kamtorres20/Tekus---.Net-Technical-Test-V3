@@ -1,0 +1,222 @@
+﻿
+@{
+    ViewData["Title"] = "Pagina Principal";
+}
+
+@section Scripts {
+<script type="text/javascript">
+    $(document).ready(function () {
+       
+        GetClients();
+
+
+
+    })
+       
+    function openModal(val) {
+       
+        if (val == 'Service') {
+          
+            $("#modalService").modal("show");
+        }
+
+    }
+
+    function SetClients() {
+        var id = $("#inpid").val() == "" ? 0 : $("#inpid").val();
+        var nametext = $("#inpname").val();
+        var nittext = $("#inpnit").val();
+        var emailtext = $("#inpemail").val();
+        var database = $("#ddlDB").val();
+
+        $.ajax({
+            url: '@Url.Action("SetClients", "Client")',
+            type: "post",
+            data: {id:id, Name: nametext, Email: emailtext, Nit: nittext, db: database },
+            cache: false,
+            success: function (retorno) {
+
+                $("#listClients").html(retorno);
+                $('a.edit').click(function () {                
+                    var cod = $(this).parents("tr").find("td").eq(1).html();
+                    var nit = $(this).parents("tr").find("td").eq(2).html();
+                    var name = $(this).parents("tr").find("td").eq(3).html();
+                    var email = $(this).parents("tr").find("td").eq(4).html();
+                    $("#inpid").val(cod);
+                    $("#inpname").val(name);
+                    $("#inpnit").val(nit);
+                    $("#inpemail").val(email);
+                });
+                clearClient();
+            },
+            error: function () {
+                alert("Se ha producido un error");
+            }
+        });
+    }
+
+    
+
+    function GetClients(acc) {
+        var database = $("#ddlDB").val();
+        $.ajax({
+            url: '@Url.Action("GetClients", "Client")',
+            data: { db: database, acc: acc },
+            type: "post",
+            cache: false,
+            success: function (retorno) {
+            
+                    $("#listClients").html(retorno);
+                    $('a.edit').click(function () {
+                        var cod = $(this).parents("tr").find("td").eq(1).html();
+                        var nit = $(this).parents("tr").find("td").eq(2).html();
+                        var name = $(this).parents("tr").find("td").eq(3).html();
+                        var email = $(this).parents("tr").find("td").eq(4).html();
+                        $("#inpid").val(cod);
+                        $("#inpname").val(name);
+                        $("#inpnit").val(nit);
+                        $("#inpemail").val(email);
+                    });
+                    $('a.service').click(function () {
+                        var cod = $(this).parents("tr").find("td").eq(1).html();
+                        var name = $(this).parents("tr").find("td").eq(3).html();
+
+                        $("#idcli").val(cod);
+                        $("#nomcli").val(name);
+                        openModal('Service');
+                    });
+               
+
+            },
+            error: function () {
+                alert("Se ha producido un error");
+            }
+        });
+    }
+
+    function clearClient() {
+        $("#inpid").val('');
+        $("#inpname").val('');
+        $("#inpnit").val('');
+        $("#inpemail").val('');
+
+    }
+
+</script>
+}
+
+<div class="panel panel-default" style="margin-top:10px">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-lg-2 ">
+                <span class="label label-info">CLIENT</span>
+            </div>
+            <div class="col-lg-3" style="float:right">
+                <select id="ddlDB" class="form-control">
+                    <option value="out">Sql Server</option>
+                    <option value="in">Memory Storage</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="row" style="margin-top:10px">
+
+            <div class="col-lg-2 ">
+                <span>Id</span>
+                <input id="inpid" type="text" class="form-control" disabled="disabled" />
+            </div>
+            <div class="col-lg-2 ">
+                <span>Nit</span>
+                <input id="inpnit" type="text" class="form-control" />
+            </div>
+            <div class="col-lg-3">
+                <span>Name</span>
+                <input id="inpname" type="text" class="form-control" />
+            </div>
+            <div class="col-lg-3 ">
+                <span>Email</span>
+                <input id="inpemail" type="text" class="form-control" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="row" style="margin-top:10px">
+    <div class="col-lg-12 ">
+        <div class="btn-group-sm">
+            <input type="button" class="btn btn-default" value="Agregar" onclick="SetClients();" />
+            <input type="button" class="btn btn-default" value="Consultar" onclick="GetClients('Tbl');" />
+            <input type="button" class="btn btn-default" value="Clear" onclick="clearClient();" />
+        </div>
+
+    </div>
+</div>
+<div id="listClients" style="margin-top:10px"></div>
+
+
+
+
+<div id="modalService" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-lg-2" style="margin-top:10px">
+                        <span class="label label-info">Gestion Servicios</span>
+                    </div>
+                   
+                    <div class="col-lg-1" style="margin-top:10px">
+                        <span>Client</span>
+                    </div>
+                    <div class="col-sm-2">
+                        <input id="idcli" type="text" class="form-control" disabled="disabled" />
+                    </div>
+                    <div class="col-sm-2">
+                        <input id="nomcli" type="text" class="form-control" disabled="disabled" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-body">
+             
+                <div class="row" style="margin-top:10px">
+
+                    <div class="col-lg-2 ">
+                        <span>Id</span>
+                        <input id="inpidS" type="text" class="form-control" disabled="disabled" />
+                    </div>
+                   
+                    <div class="col-lg-4">
+                        <span>Name</span>
+                        <input id="inpnameService" type="text" class="form-control" />
+                    </div>
+                    <div class="col-lg-4 ">
+                        <span>Valor Horas</span>
+                        <input id="inpVlrHrsService" type="text" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:10px">
+                    <div class="col-lg-12 ">
+                        <div class="input-group">
+                            <input type="button" class="btn btn-success" value="Agregar" onclick="SetService();" />
+                            <input type="button" class="btn btn-info" value="Consultar" onclick="GetClients('Tbl');" />
+                        </div>
+
+                    </div>
+                </div>
+                <div id="listService" style="margin-top:10px"></div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div> 

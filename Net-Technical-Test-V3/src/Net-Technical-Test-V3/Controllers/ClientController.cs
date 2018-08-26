@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Net_Technical_Test_V3.Models;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -14,6 +15,10 @@ namespace Net_Technical_Test_V3.Controllers
     public class ClientController : Controller
     {
         private ApplicationDbContext _context;
+        public IActionResult Index()
+        {
+            return View();
+        }
         // GET: /<controller>/
         public ClientController(ApplicationDbContext context)
         {
@@ -65,11 +70,20 @@ namespace Net_Technical_Test_V3.Controllers
         }
 
 
-        public ActionResult GetClients(string db)
+        public ActionResult GetClients(string db,string acc)
         {
             if (db == "in")
             {
-                return PartialView("~/Views/Client/ListClients.cshtml", _context.Clients);
+                if (acc == "ddl")
+                {
+                    ViewBag.Client = new SelectList(_context.Clients, "Id", "Name");
+                    return PartialView("~/Views/Client/DdlClients.cshtml", ViewBag.Client);
+                }
+                else
+                {
+                    return PartialView("~/Views/Client/ListClients.cshtml", _context.Clients);
+                }
+                
             }
             else
             {
@@ -77,8 +91,20 @@ namespace Net_Technical_Test_V3.Controllers
                 cli.Nit = "";
                 cli.Name = "";
                 cli.Email = "";
-                return PartialView("~/Views/Client/ListClients.cshtml", ClientsDAO.SetClient(cli, 1,0));
+                if (acc == "ddl")
+                {
+
+                    ViewBag.Client = new SelectList(ClientsDAO.SetClient(cli, 1, 0), "Id", "Name");
+                    return PartialView("~/Views/Client/DdlClients.cshtml", ViewBag.Client);
+                }
+                else
+                {
+                    return PartialView("~/Views/Client/ListClients.cshtml", ClientsDAO.SetClient(cli, 1, 0));
+                }
+             
             }
         }
+
+   
     }
 }
