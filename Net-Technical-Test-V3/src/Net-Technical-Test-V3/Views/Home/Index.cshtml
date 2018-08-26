@@ -6,6 +6,10 @@
 @section Scripts {
     <script type="text/javascript">
 
+        $(document).ready(function () {
+            GetinfoDashboard();
+        })
+
 
         function SetResetDB() {
 
@@ -21,7 +25,23 @@
                 }
             });
         }
+        function GetinfoDashboard() {
 
+            var database = $("#ddlDB").val();
+
+            $.ajax({
+                url: '@Url.Action("GetDashboard", "Home")',
+                type: "post",
+                data: { db: database },
+                cache: false,
+                success: function (retorno) {
+                    $("#listPaisxServ").html(retorno);
+                },
+                error: function () {
+                    alert("Se ha producido un error");
+                }
+            });
+        }
 
     </script>
 }
@@ -46,7 +66,7 @@
         </div>
     </div> 
     <div class="panel-body">
-
+        <div id="listPaisxServ"></div>
     </div>
 </div> 
 

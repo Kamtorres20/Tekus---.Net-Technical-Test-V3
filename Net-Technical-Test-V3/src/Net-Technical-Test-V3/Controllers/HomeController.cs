@@ -23,10 +23,27 @@ namespace Net_Technical_Test_V3.Controllers
 
         public ActionResult SetResetDb(string db)
         {
-            HomeDAO.SetResetDB(db);
+            HomeDAO.SetResetDB();
             return View();
         }
 
+        public ActionResult GetDashboard(string db)
+        {
+            if (db == "in")
+            {
+                
+               
 
+            }
+            else
+            {
+
+               
+
+            }
+            return PartialView("~/Views/Home/ListHome.cshtml", HomeDAO.SGetInfo());
         }
+
+
+    }
 }

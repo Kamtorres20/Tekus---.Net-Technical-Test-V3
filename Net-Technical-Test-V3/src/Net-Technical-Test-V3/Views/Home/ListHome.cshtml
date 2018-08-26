@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Net_Technical_Test_V3.Models.Home>
+
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+<div class="row">
+    @foreach (var item in Model.Take(1))
+    {
+        
+        <div class="col-sm-2">
+            <span>Client Records</span>
+            <input type="text" class="form-control" disabled="disabled" value="@Html.DisplayFor(modelItem => item.CantClient)"/>
+        </div>
+        <div class="col-sm-2">
+            <span>Service Records</span>
+            <input type="text" class="form-control" disabled="disabled" value="@Html.DisplayFor(modelItem => item.CantService)" />
+        </div>
+    }
+    
+</div>
+<div class="row" style="margin-top:10px">
+    <div class="col-sm-5">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>               
+                    <th style="width:40%">Country</th>
+                    <th style="width:10%">Record</th> 
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr style="font-size:x-small">                       
+                            <td>@Html.DisplayFor(modelItem => item.Country)</td>                            
+                            <td>@Html.DisplayFor(modelItem => item.CantServicexCountry)</td>                                              
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+
+
+    </div>
