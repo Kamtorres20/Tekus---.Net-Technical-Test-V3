@@ -1,24 +1,82 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Pagina Principal";
 }
 
 @section Scripts {
 <script type="text/javascript">
+        function openModal(val) {
+            if (val == 'Client') { $("#modalClient").modal("show"); }
+            if (val == 'Service') { $("#modalService").modal("show"); }
+
+        }
+
+    function SetClients() {
+        var id = $("#inpid").val() == "" ? 0 : $("#inpid").val();
+        var nametext = $("#inpname").val();
+        var nittext = $("#inpnit").val();
+        var emailtext = $("#inpemail").val();
+        var database = $("#ddlDB").val();
+
+        $.ajax({
+            url: '@Url.Action("SetClients", "Client")',
+            type: "post",
+            data: {id:id, Name: nametext, Email: emailtext, Nit: nittext, db: database },
+            cache: false,
+            success: function (retorno) {
+
+                $("#listClients").html(retorno);
+                $('a.edit').click(function () {                
+                    var cod = $(this).parents("tr").find("td").eq(1).html();
+                    var nit = $(this).parents("tr").find("td").eq(2).html();
+                    var name = $(this).parents("tr").find("td").eq(3).html();
+                    var email = $(this).parents("tr").find("td").eq(4).html();
+                    $("#inpid").val(cod);
+                    $("#inpname").val(name);
+                    $("#inpnit").val(nit);
+                    $("#inpemail").val(email);
+                });
+                clearClient();
+            },
+            error: function () {
+                alert("Se ha producido un error");
+            }
+        });
+    }
 
     function GetClients() {
+        var database = $("#ddlDB").val();
         $.ajax({
-            url: '@Url.Action("GetClients", "Home")',
+            url: '@Url.Action("GetClients", "Client")',
+            data: { db: database },
             type: "post",
             cache: false,
             success: function (retorno) {
 
-                $("#listActividad").html(retorno);
+                $("#listClients").html(retorno);
+                $('a.edit').click(function () {
+                    var cod = $(this).parents("tr").find("td").eq(1).html();
+                    var nit = $(this).parents("tr").find("td").eq(2).html();
+                    var name = $(this).parents("tr").find("td").eq(3).html();
+                    var email = $(this).parents("tr").find("td").eq(4).html();
+                    $("#inpid").val(cod);
+                    $("#inpname").val(name);
+                    $("#inpnit").val(nit);
+                    $("#inpemail").val(email);
+                });
 
             },
             error: function () {
                 alert("Se ha producido un error");
             }
         });
+    }
+
+    function clearClient() {
+        $("#inpid").val('');
+        $("#inpname").val('');
+        $("#inpnit").val('');
+        $("#inpemail").val('');
+
     }
 
 </script>
@@ -29,13 +87,132 @@
         <div class="well">hola mundo</div>
     </div>
 </div>
-<div class="row">
-    <div class="col-lg-12 ">
-        <input type="button" class="btn btn-success" value="Cargar" onclick="GetClients();" />
+
+
+
+
+
+
+
+
+
+
+<div id="modalClient" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-lg-2" style="margin-top:5px">
+                        <span>Agregar Clientes</span>
+                    </div>
+                  
+                    <div class="col-lg-3 ">
+                        <select id="ddlDB" class="form-control">
+                            <option value="out">Sql Server</option>
+                            <option value="in">Memory Storage</option>
+                        </select>
+                    </div>
+                </div>
+              
+            </div>
+            <div class="modal-body">
+               
+                <div class="row" style="margin-top:10px">
+
+                    <div class="col-lg-2 ">
+                        <span>Id</span>
+                        <input id="inpid" type="text" class="form-control" disabled="disabled" />
+                    </div>
+                    <div class="col-lg-2 ">
+                        <span>Nit</span>
+                        <input id="inpnit" type="text" class="form-control" />
+                    </div>
+                    <div class="col-lg-4">
+                        <span>Name</span>
+                        <input id="inpname" type="text" class="form-control" />
+                    </div>
+                    <div class="col-lg-4 ">
+                        <span>Email</span>
+                        <input id="inpemail" type="text" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:10px">
+                    <div class="col-lg-12 ">
+                        <div class="input-group">
+                            <input type="button" class="btn btn-success" value="Agregar" onclick="SetClients();" />
+                            <input type="button" class="btn btn-info" value="Consultar" onclick="GetClients();" />
+                        </div>
+                       
+                    </div>
+                </div>
+                <div id="listClients"  style="margin-top:10px"></div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-lg-12 ">
-        <div id="listActividad"></div>
+</div> 
+
+<div id="modalService" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-lg-2" style="margin-top:5px">
+                        <span>Gestion Servicios</span>
+                    </div>
+
+                    <div class="col-lg-3 ">
+                        <select id="ddlDB" class="form-control">
+                            <option value="out">Sql Server</option>
+                            <option value="in">Memory Storage</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-body">
+
+                <div class="row" style="margin-top:10px">
+
+                    <div class="col-lg-2 ">
+                        <span>Id</span>
+                        <input id="inpid" type="text" class="form-control" disabled="disabled" />
+                    </div>
+                    <div class="col-lg-2 ">
+                        <span>Nit</span>
+                        <input id="inpnit" type="text" class="form-control" />
+                    </div>
+                    <div class="col-lg-4">
+                        <span>Name</span>
+                        <input id="inpname" type="text" class="form-control" />
+                    </div>
+                    <div class="col-lg-4 ">
+                        <span>Email</span>
+                        <input id="inpemail" type="text" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:10px">
+                    <div class="col-lg-12 ">
+                        <div class="input-group">
+                            <input type="button" class="btn btn-success" value="Agregar" onclick="SetClients();" />
+                            <input type="button" class="btn btn-info" value="Consultar" onclick="GetClients();" />
+                        </div>
+
+                    </div>
+                </div>
+                <div id="listClients" style="margin-top:10px"></div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
-</div>
+</div> 
