@@ -61,7 +61,7 @@ namespace Net_Technical_Test_V3.Controllers
                 cli.Name = Name;
                 cli.Email = Email;
                 int acc = 0;
-                if (id != 0){acc = id; }
+                if (id != 0){acc = 1; }
                   
 
                 return PartialView("~/Views/Client/ListClients.cshtml", ClientsDAO.SetClient(cli, acc, id));
@@ -74,16 +74,8 @@ namespace Net_Technical_Test_V3.Controllers
         {
             if (db == "in")
             {
-                if (acc == "ddl")
-                {
-                    ViewBag.Client = new SelectList(_context.Clients, "Id", "Name");
-                    return PartialView("~/Views/Client/DdlClients.cshtml", ViewBag.Client);
-                }
-                else
-                {
-                    return PartialView("~/Views/Client/ListClients.cshtml", _context.Clients);
-                }
-                
+                return PartialView("~/Views/Client/ListClients.cshtml", _context.Clients);
+
             }
             else
             {
@@ -91,17 +83,8 @@ namespace Net_Technical_Test_V3.Controllers
                 cli.Nit = "";
                 cli.Name = "";
                 cli.Email = "";
-                if (acc == "ddl")
-                {
+                return PartialView("~/Views/Client/ListClients.cshtml", ClientsDAO.SetClient(cli, 2, 0));
 
-                    ViewBag.Client = new SelectList(ClientsDAO.SetClient(cli, 1, 0), "Id", "Name");
-                    return PartialView("~/Views/Client/DdlClients.cshtml", ViewBag.Client);
-                }
-                else
-                {
-                    return PartialView("~/Views/Client/ListClients.cshtml", ClientsDAO.SetClient(cli, 1, 0));
-                }
-             
             }
         }
 

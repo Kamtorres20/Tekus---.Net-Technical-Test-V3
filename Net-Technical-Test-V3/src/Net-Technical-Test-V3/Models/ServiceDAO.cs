@@ -8,7 +8,7 @@ namespace Net_Technical_Test_V3.Models
     public class ServiceDAO
     {
 
-        public static List<Service> SetService(Service datos, int acc, int id)
+        public static List<Service> SetService(Service datos, int acc)
         {
 
             List<Service> Listserv = new List<Service>();

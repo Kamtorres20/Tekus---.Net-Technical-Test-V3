@@ -42,22 +42,42 @@ namespace Net_Technical_Test_V3.Controllers
                     _context.SaveChanges();
                 }
 
-                return PartialView("~/Views/Client/ListService.cshtml", _context.Clients);
+                return PartialView("~/Views/Service/ListService.cshtml", _context.Clients);
             }
             else
             {
                 Service Serv = new Models.Service();
+                Serv.Id = id;
                 Serv.Id_client = idclient;
                 Serv.Name = Name;
                 Serv.hrsUSD = Horavlr;
                
                 int acc = 0;
-                if (id != 0) { acc = id; }
+                if (id != 0) { acc = 1; }
 
 
-                return PartialView("~/Views/Client/ListService.cshtml", ServiceDAO.SetService(Serv, acc, id));
+                return PartialView("~/Views/Service/ListService.cshtml", ServiceDAO.SetService(Serv, acc));
             }
 
+        }
+
+        public ActionResult GetService(string db, int idclient)
+        {
+            if (db == "in")
+            {
+                return PartialView("~/Views/Service/ListService.cshtml", _context.Clients);
+
+            }
+            else
+            {
+                Service Serv = new Models.Service();
+                Serv.Id = 0;
+                Serv.Id_client = idclient;
+                Serv.Name = "";
+                Serv.hrsUSD = "";
+                return PartialView("~/Views/Service/ListService.cshtml", ServiceDAO.SetService(Serv, 2));
+
+            }
         }
     }
 }

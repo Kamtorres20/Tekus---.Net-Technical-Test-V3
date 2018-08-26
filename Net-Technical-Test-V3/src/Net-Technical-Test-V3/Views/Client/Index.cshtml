@@ -83,6 +83,8 @@
 
                         $("#idcli").val(cod);
                         $("#nomcli").val(name);
+                        clearServices();
+                        GetService(cod);
                         openModal('Service');
                     });
                
@@ -101,7 +103,70 @@
         $("#inpemail").val('');
 
     }
+    function SetService() {
+        var id = $("#inpidS").val() == "" ? 0 : $("#inpidS").val();
+        var nametext = $("#inpnameService").val();
+        var clienttext = $("#idcli").val();
+        var vlrhrstext = $("#inpVlrHrsService").val();
+        var database = $("#ddlDB").val();
 
+        $.ajax({
+            url: '@Url.Action("SetService", "Service")',
+            type: "post",
+            data: { id: id, Name: nametext, idclient: clienttext, Horavlr: vlrhrstext, db: database },
+            cache: false,
+            success: function (retorno) {
+
+                $("#listService").html(retorno);
+                $('a.editServ').click(function () {
+                    var cod = $(this).parents("tr").find("td").eq(1).html();                   
+                    var name = $(this).parents("tr").find("td").eq(2).html();
+                    var vlr = $(this).parents("tr").find("td").eq(3).html();
+                    $("#inpidS").val(cod);
+                    $("#inpnameService").val(name);
+                    $("#inpVlrHrsService").val(vlr);
+                });
+                clearServices();
+               
+            },
+            error: function () {
+                alert("Se ha producido un error");
+            }
+        });
+    }
+
+    function GetService(idclient) {
+        var database = $("#ddlDB").val();
+        $.ajax({
+            url: '@Url.Action("GetService", "Service")',
+            data: { db: database, idclient: idclient },
+            type: "post",
+            cache: false,
+            success: function (retorno) {
+
+                $("#listService").html(retorno);
+                $('a.editServ').click(function () {
+                    var cod = $(this).parents("tr").find("td").eq(1).html();
+                    var name = $(this).parents("tr").find("td").eq(2).html();
+                    var vlr = $(this).parents("tr").find("td").eq(3).html();
+                    $("#inpidS").val(cod);
+                    $("#inpnameService").val(name);
+                    $("#inpVlrHrsService").val(vlr);
+                });
+
+            },
+            error: function () {
+                alert("Se ha producido un error");
+            }
+        });
+    }
+
+    function clearServices() {
+        $("#inpidS").val('');
+        $("#inpnameService").val('');
+        $("#inpVlrHrsService").val('');
+    
+    }
 </script>
 }
 
@@ -195,21 +260,16 @@
                         <span>Name</span>
                         <input id="inpnameService" type="text" class="form-control" />
                     </div>
-                    <div class="col-lg-4 ">
+                    <div class="col-lg-2 ">
                         <span>Valor Horas</span>
                         <input id="inpVlrHrsService" type="text" class="form-control" />
                     </div>
-                </div>
-
-                <div class="row" style="margin-top:10px">
-                    <div class="col-lg-12 ">
-                        <div class="input-group">
-                            <input type="button" class="btn btn-success" value="Agregar" onclick="SetService();" />
-                            <input type="button" class="btn btn-info" value="Consultar" onclick="GetClients('Tbl');" />
-                        </div>
-
+                    <div class="col-lg-2 " style="margin-top:19px">
+                        <input type="button" class="btn btn-default" value="Agregar" onclick="SetService();" />
                     </div>
-                </div>
+                    </div>
+                <hr />
+             
                 <div id="listService" style="margin-top:10px"></div>
 
 
