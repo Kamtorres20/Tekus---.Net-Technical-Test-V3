@@ -6,22 +6,25 @@
 @section Scripts {
 <script type="text/javascript">
     $(document).ready(function () {
-       
+
         GetClients();
 
 
 
     })
-       
+
     function openModal(val) {
-       
+        
         if (val == 'Service') {
+            $("#modalcountry").modal("hide");
             $("#modalService").modal("show");
         }
         if (val == 'country') {
+            clearCountry();
+            $("#modalService").modal("hide");
             $("#modalcountry").modal("show");
         }
-        
+
 
     }
 
@@ -40,7 +43,7 @@
             success: function (retorno) {
 
                 $("#listClients").html(retorno);
-                $('a.edit').click(function () {                
+                $('a.edit').click(function () {
                     var cod = $(this).parents("tr").find("td").eq(1).html();
                     var nit = $(this).parents("tr").find("td").eq(2).html();
                     var name = $(this).parents("tr").find("td").eq(3).html();
@@ -68,7 +71,7 @@
         });
     }
 
-    
+
 
     function GetClients(acc) {
         var database = $("#ddlDB").val();
@@ -78,7 +81,7 @@
             type: "post",
             cache: false,
             success: function (retorno) {
-            
+
                     $("#listClients").html(retorno);
                     $('a.edit').click(function () {
                         var cod = $(this).parents("tr").find("td").eq(1).html();
@@ -100,7 +103,7 @@
                         GetService(cod);
                         openModal('Service');
                     });
-               
+
 
             },
             error: function () {
@@ -122,7 +125,7 @@
         var clienttext = $("#idcli").val();
         var vlrhrstext = $("#inpVlrHrsService").val();
 
-        
+
         var database = $("#ddlDB").val();
 
         $.ajax({
@@ -137,14 +140,24 @@
                     var cod = $(this).parents("tr").find("td").eq(1).html();
                     var name = $(this).parents("tr").find("td").eq(2).html();
                     var vlr = $(this).parents("tr").find("td").eq(3).html();
-                  
+
                     $("#inpidS").val(cod);
                     $("#inpnameService").val(name);
                     $("#inpVlrHrsService").val(vlr);
-                   
+
+                });
+                $('a.Country').click(function () {
+                    var cod = $(this).parents("tr").find("td").eq(1).html();
+                    var name = $(this).parents("tr").find("td").eq(2).html();
+
+                    $("#idServ").val(cod);
+                    $("#nomServ").val(name);
+                    clearCountry();
+                    GetCountry(cod);
+                    openModal('country');
                 });
                 clearServices();
-               
+
             },
             error: function () {
                 alert("Se ha producido un error");
@@ -166,14 +179,23 @@
                     var cod = $(this).parents("tr").find("td").eq(1).html();
                     var name = $(this).parents("tr").find("td").eq(2).html();
                     var vlr = $(this).parents("tr").find("td").eq(3).html();
-                   
+
                     $("#inpidS").val(cod);
                     $("#inpnameService").val(name);
                     $("#inpVlrHrsService").val(vlr);
-                 
-                    
-                });
 
+
+                });
+                $('a.Country').click(function () {
+                    var cod = $(this).parents("tr").find("td").eq(1).html();
+                    var name = $(this).parents("tr").find("td").eq(2).html();
+
+                    $("#idServ").val(cod);
+                    $("#nomServ").val(name);
+                    clearCountry();
+                    GetCountry(cod);
+                    openModal('country');
+                });
             },
             error: function () {
                 alert("Se ha producido un error");
@@ -186,34 +208,25 @@
         $("#inpnameService").val('');
         $("#inpVlrHrsService").val('');
         $("#inpPais").val('');
-    
+
     }
 
-    function SetPais() {
-        var id = $("#inpidPais").val() == "" ? 0 : $("#inpidPais").val();       
+    function SetCountry() {
+        var id = $("#inpidPais").val() == "" ? 0 : $("#inpidPais").val();
         var pais = $("#inpPais").val();
-
+        var idServ = $("#idServ").val();
         var database = $("#ddlDB").val();
 
         $.ajax({
-            url: '@Url.Action("SetService", "Service")',
+            url: '@Url.Action("SetCountry", "Country")',
             type: "post",
-            data: { id: id, Name: nametext, idclient: clienttext, Horavlr: vlrhrstext, pais: pais, db: database },
+            data: { id: id, pais: pais, idServ: idServ, pais: pais, db: database },
             cache: false,
             success: function (retorno) {
 
-                $("#listService").html(retorno);
-                $('a.editServ').click(function () {
-                    var cod = $(this).parents("tr").find("td").eq(1).html();
-                    var name = $(this).parents("tr").find("td").eq(2).html();
-                    var vlr = $(this).parents("tr").find("td").eq(3).html();
-                    var pais = $(this).parents("tr").find("td").eq(4).html();
-                    $("#inpidS").val(cod);
-                    $("#inpnameService").val(name);
-                    $("#inpVlrHrsService").val(vlr);
-                    $("#inpPais").val(pais);
-                });
-                clearServices();
+                $("#listCountry").html(retorno);
+                GetPais(cod);
+                clearCountry();
 
             },
             error: function () {
@@ -221,12 +234,27 @@
             }
         });
     }
+    function GetCountry(idserv) {
+        var database = $("#ddlDB").val();
+        $.ajax({
+            url: '@Url.Action("GetCountry", "Country")',
+            data: { db: database, idserv: idserv },
+            type: "post",
+            cache: false,
+            success: function (retorno) {
 
-    function clearPais() {
-        $("#inpidS").val('');
-        $("#inpnameService").val('');
-        $("#inpVlrHrsService").val('');
+                $("#listCountry").html(retorno);
+              
+            },
+            error: function () {
+                alert("Se ha producido un error");
+            }
+        });
+    }
+    function clearCountry() {
+        $("#inpidPais").val('');
         $("#inpPais").val('');
+
 
     }
 </script>
@@ -326,22 +354,7 @@
                         <span>Valor Horas</span>
                         <input id="inpVlrHrsService" type="text" class="form-control" />
                     </div>
-                    <div class="col-lg-2 ">
-                        <span>Pais</span>
-                       <select id="inpPais" class="form-control">
-                           <option value="">Seleccione</option>
-                           <option value="Colombia">Colombia</option>
-                           <option value="Mexico">Mexico</option>
-                           <option value="Peru">Peru</option>
-                           <option value="Venezuela">Venezuela</option>
-                           <option value="Argentina">Argentina</option>
-                           <option value="Brasil">Brasil</option>
-                           <option value="Ecuador">Ecuador</option>
-                           <option value="Bolivia">Bolivia</option>
-                           <option value="Chile">Chile</option>
-                           <option value="Paraguay">PAraguay</option>
-                       </select>
-                    </div>
+                   
                     <div class="col-lg-2 " style="margin-top:19px">
                         <input type="button" class="btn btn-default" value="Agregar" onclick="SetService();" />
                     </div>
@@ -404,17 +417,17 @@
                         </select>
                     </div>
                     <div class="col-lg-2 " style="margin-top:19px">
-                        <input type="button" class="btn btn-default" value="Agregar" onclick="SetPais();" />
+                        <input type="button" class="btn btn-default" value="Agregar" onclick="SetCountry();" />
                     </div>
                 </div>
                 <hr />
 
-                <div id="listPais" style="margin-top:10px"></div>
+                <div id="listCountry" style="margin-top:10px"></div>
 
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <input type="button" class="btn btn-default" value="Close" onclick="openModal('Service');" />                
             </div>
         </div>
     </div>

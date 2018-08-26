@@ -18,7 +18,7 @@ namespace Net_Technical_Test_V3.Controllers
             _context = context;
         }
 
-        public ActionResult SetPais(int id, int idServ, string pais, string db)
+        public ActionResult SetCountry(int id, int idServ, string pais, string db)
         {
 
 
@@ -44,7 +44,21 @@ namespace Net_Technical_Test_V3.Controllers
                     _context.SaveChanges();
                 }
 
-                return PartialView("~/Views/Country/ListCountry.cshtml", _context.Clients);
+                List<Country> Listfilter = new List<Country>();
+
+                foreach (Country item in _context.Countrys.Where(i => i.Id_serv == idServ))
+                {
+                    Listfilter.Add(
+                        new Country
+                        {
+                            Id = item.Id,
+                            Id_serv = item.Id_serv,
+                            Name = item.Name,
+                        });
+                }
+                return PartialView("~/Views/Country/ListCountry.cshtml", Listfilter);
+
+                
             }
             else
             {
@@ -63,22 +77,35 @@ namespace Net_Technical_Test_V3.Controllers
 
         }
 
-        public ActionResult GetService(string db, int idserv)
+        public ActionResult GetCountry(string db, int idserv)
         {
             if (db == "in")
             {
-                return PartialView("~/Views/Country/ListCountry.cshtml", _context.Clients);
+
+                List<Country> Listfilter = new List<Country>();
+
+                foreach (Country item in _context.Countrys.Where(i => i.Id_serv == idserv))
+                {
+                    Listfilter.Add(
+                        new Country
+                        {
+                            Id = item.Id,
+                            Id_serv = item.Id_serv,
+                            Name = item.Name,                            
+                        });
+                }
+                return PartialView("~/Views/Country/ListCountry.cshtml", Listfilter);
 
             }
             else
             {
-                Service Serv = new Models.Service();
-                Serv.Id = 0;
-                Serv.Id_client = idserv;
-                Serv.Name = "";
-                Serv.hrsUSD = "";
+                Country Country = new Models.Country();
+                Country.Id = 0;
+                Country.Id_serv = idserv;
+                Country.Name = "";
+                
 
-                return PartialView("~/Views/Country/ListCountry.cshtml", ServiceDAO.SetService(Serv, 2));
+                return PartialView("~/Views/Country/ListCountry.cshtml", CountryDAO.SetPais(Country, 2));
 
             }
         }

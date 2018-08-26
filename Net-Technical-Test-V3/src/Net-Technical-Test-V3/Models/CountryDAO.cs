@@ -13,7 +13,7 @@ namespace Net_Technical_Test_V3.Models
 
             List<Country> ListCountry = new List<Country>();
             SqlCommand comm = Config.CreateCommand();
-            comm.CommandText = "sp_Set_Services";
+            comm.CommandText = "sp_Set_Pais";
             comm.Parameters.Clear();
             comm.Parameters.AddWithValue("@id", datos.Id);
             comm.Parameters.AddWithValue("@Id_Serv", datos.Id_serv);
@@ -31,8 +31,8 @@ namespace Net_Technical_Test_V3.Models
                      new Country
                      {
                          Id = Convert.ToInt32(reader["Id"]),
-                         Id_serv = Convert.ToInt32(reader["Id_Client"]),
-                         Name = Convert.ToString(reader["Name"]),                        
+                         Id_serv = Convert.ToInt32(reader["Id_Service"]),
+                         Name = Convert.ToString(reader["Pais"]),                        
                      });
             }
             comm.Connection.Close();

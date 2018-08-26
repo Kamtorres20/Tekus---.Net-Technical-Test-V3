@@ -45,7 +45,22 @@ namespace Net_Technical_Test_V3.Controllers
                     _context.SaveChanges();
                 }
 
-                return PartialView("~/Views/Service/ListService.cshtml", _context.Services);
+                List<Service> Listfilter = new List<Service>();
+
+                foreach (Service item in _context.Services.Where(i => i.Id_client == idclient))
+                {
+                    Listfilter.Add(
+                        new Service
+                        {
+                            Id = item.Id,
+                            Id_client = item.Id_client,
+                            Name = item.Name,
+                            hrsUSD = item.hrsUSD
+                        });
+                }
+                return PartialView("~/Views/Service/ListService.cshtml", Listfilter);
+
+                
             }
             else
             {
