@@ -23,16 +23,99 @@ namespace Net_Technical_Test_V3.Controllers
 
         public ActionResult SetResetDb(string db)
         {
+            if (db == "in")
+            {
+                _context.Clients.RemoveRange();
+                _context.Countrys.RemoveRange();
+                _context.Services.RemoveRange();
+                _context.SaveChanges();
+
+                int cli = _context.Clients.Count();
+                int ser = _context.Services.Count();
+
+                List<Home> Listfilter = new List<Home>();
+                var numberGroups = _context.Countrys.GroupBy(i => i.Name)
+                   .Select(grp => new {
+                       pais = grp.Key,
+                       total = grp.Count(),
+                   })
+                   .ToArray();
+
+                foreach (var item in numberGroups)
+                {
+                    Listfilter.Add(
+                        new Home
+                        {
+                            CantClient = cli,
+                            CantService = ser,
+                            Country = item.pais,
+                            CantServicexCountry = item.total,
+                        });
+                }
+
+                if (Listfilter.Count == 0)
+                {
+                    Listfilter.Add(
+                                new Home
+                                {
+                                    CantClient = cli,
+                                    CantService = ser,
+                                    Country = "No Hay Registro",
+                                    CantServicexCountry = 0,
+                                });
+                }
+
+                return PartialView("~/Views/Home/ListHome.cshtml", Listfilter);
+                
+            }
+            else
+            {
+                return PartialView("~/Views/Home/ListHome.cshtml", HomeDAO.SetResetDB());
+            }
             
-            return PartialView("~/Views/Home/ListHome.cshtml", HomeDAO.SetResetDB());
         }
+
 
         public ActionResult GetDashboard(string db)
         {
             if (db == "in")
             {
+                int cli = _context.Clients.Count();
+                int ser = _context.Services.Count();
 
-                return PartialView("~/Views/Home/ListHome.cshtml", HomeDAO.SGetInfo());
+                List<Home> Listfilter = new List<Home>();
+                var numberGroups = _context.Countrys.GroupBy(i => i.Name)
+                   .Select(grp => new {
+                       pais = grp.Key,
+                       total = grp.Count(),                       
+                   })
+                   .ToArray();
+
+                foreach (var  item in numberGroups)
+                {
+                    Listfilter.Add(
+                        new Home
+                        {
+                            CantClient = cli,
+                            CantService = ser,
+                            Country = item.pais,
+                            CantServicexCountry = item.total,
+                        });
+                }
+
+                if (Listfilter.Count == 0)
+                {
+                    Listfilter.Add(
+                                new Home
+                                {
+                                    CantClient = cli,
+                                    CantService = ser,
+                                    Country = "No Hay Registro",
+                                    CantServicexCountry = 0,
+                                });
+                }
+
+                return PartialView("~/Views/Home/ListHome.cshtml", Listfilter);
 
             }
             else

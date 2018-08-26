@@ -1,4 +1,4 @@
-﻿{
+{
   "dependencies": {
     "Microsoft.NETCore.App": {
       "version": "1.0.1",
@@ -25,9 +25,6 @@
     "Microsoft.EntityFrameworkCore": "1.0.1",
     "Microsoft.EntityFrameworkCore.InMemory": "1.0.1",
     "System.Data.SqlClient": "4.1.0"
-    
-
-
   },
 
   "tools": {

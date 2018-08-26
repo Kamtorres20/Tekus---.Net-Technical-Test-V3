@@ -54,10 +54,13 @@
 <div class="panel panel-default" style="margin-top:10px">
     <div class="panel-heading">
         <div class="row">
-            <div class="col-lg-8 " style="margin-top:8px">
+            <div class="col-lg-7 " style="margin-top:8px">
                <span class="label label-info">Dashboard</span>
             </div>
-            <div class="col-lg-3 ">
+            <div class="col-lg-2 ">
+                <input  type="button" class="btn btn-default btn-sm" value="Cargar Datos" onclick="GetinfoDashboard();" />
+            </div>
+            <div class="col-lg-2 ">
                 <select id="ddlDB" class="form-control">
                     <option value="out">Sql Server</option>
                     <option value="in">Memory Storage</option>

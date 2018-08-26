@@ -19,11 +19,13 @@
     function openModal(val) {
         
         if (val == 'Service') {
+            
             $("#modalcountry").modal("hide");
             $("#modalService").modal("show");
         }
         if (val == 'country') {
             clearCountry();
+            $("#btncountry").val('Agregar');
             $("#modalService").modal("hide");
             $("#modalcountry").modal("show");
         }
@@ -228,8 +230,17 @@
             success: function (retorno) {
 
                 $("#listCountry").html(retorno);
-                GetPais(cod);
+                $('a.editcountrey').click(function () {
+                    var cod = $(this).parents("tr").find("td").eq(1).html();
+                    var name = $(this).parents("tr").find("td").eq(2).html();                    
+
+                    $("#inpidPais").val(cod);
+                    $("#inpPais").val(name);
+                    $("#btncountry").val('Delete');
+                });
                 clearCountry();
+                GetPais(cod);
+               
 
             },
             error: function () {
@@ -247,7 +258,15 @@
             success: function (retorno) {
 
                 $("#listCountry").html(retorno);
-              
+                $('a.editcountrey').click(function () {
+                    var cod = $(this).parents("tr").find("td").eq(1).html();
+                    var name = $(this).parents("tr").find("td").eq(2).html();
+
+                    $("#inpidPais").val(cod);
+                    $("#inpPais").val(name);
+                    $("#btncountry").val('Delete');
+               
+                });
             },
             error: function () {
                 alert("Se ha producido un error");
@@ -257,7 +276,7 @@
     function clearCountry() {
         $("#inpidPais").val('');
         $("#inpPais").val('');
-
+        $("#btncountry").val('Agregar');
 
 
     }
@@ -269,6 +288,9 @@
         <div class="row">
             <div class="col-lg-2 ">
                 <span class="label label-info">CLIENT</span>
+            </div>
+            <div class="col-lg-2" style="float:right">
+                <input type="button" class="btn btn-default" value="Cargar Info" onclick="GetClients('Tbl');" />
             </div>
             <div class="col-lg-3" style="float:right">
                 <select id="ddlDB" class="form-control">
@@ -309,7 +331,7 @@
     <div class="col-lg-12 ">
         <div class="btn-group-sm">
             <input type="button" class="btn btn-default" value="Agregar" onclick="SetClients();" />
-            <input type="button" class="btn btn-default" value="Consultar" onclick="GetClients('Tbl');" />
+           
             <input type="button" class="btn btn-default" value="Clear" onclick="clearClient();" />
         </div>
 
@@ -344,7 +366,6 @@
             <div class="modal-body">
              
                 <div class="row" style="margin-top:10px">
-
                     <div class="col-lg-2 ">
                         <span>Id</span>
                         <input id="inpidS" type="text" class="form-control" disabled="disabled" />
@@ -421,7 +442,7 @@
                         </select>
                     </div>
                     <div class="col-lg-2 " style="margin-top:19px">
-                        <input type="button" class="btn btn-default" value="Agregar" onclick="SetCountry();" />
+                        <input id="btncountry" type="button" class="btn btn-default" value="Agregar" onclick="SetCountry();" />
                     </div>
                 </div>
                 <hr />
