@@ -20,6 +20,9 @@
                 type: "post",
                 data: { db: database },
                 cache: false,
+                success: function (retorno) {
+                    $("#listPaisxServ").html(retorno);
+                },
                 error: function () {
                     alert("Se ha producido un error");
                 }
