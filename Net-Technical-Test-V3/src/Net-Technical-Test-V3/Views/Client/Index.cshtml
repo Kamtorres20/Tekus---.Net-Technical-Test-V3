@@ -124,7 +124,7 @@
         $("#inpemail").val('');
 
     }
-    function SetService() {
+    function SetService(accion) {
         var id = $("#inpidS").val() == "" ? 0 : $("#inpidS").val();
         var nametext = $("#inpnameService").val();
         var clienttext = $("#idcli").val();
@@ -136,7 +136,7 @@
         $.ajax({
             url: '@Url.Action("SetService", "Service")',
             type: "post",
-            data: { id: id, Name: nametext, idclient: clienttext, Horavlr: vlrhrstext, db: database },
+            data: { id: id, Name: nametext, idclient: clienttext, Horavlr: vlrhrstext, db: database, accion: accion },
             cache: false,
             success: function (retorno) {
 
@@ -150,7 +150,12 @@
                     $("#inpnameService").val(name);
                     $("#inpVlrHrsService").val(vlr);
 
+                    $("#btndelete").html('<div class="col-lg-2 " style="margin-top:19px"><a href="#" class="btn btn-danger btn-sm deleteServ" style="font-size:xx-small">Delete</a></div>');
+                    $('a.deleteServ').click(function () {
+                        SetService(1);
+                    });
                 });
+                
                 $('a.Country').click(function () {
                     var cod = $(this).parents("tr").find("td").eq(1).html();
                     var name = $(this).parents("tr").find("td").eq(2).html();
@@ -188,8 +193,10 @@
                     $("#inpidS").val(cod);
                     $("#inpnameService").val(name);
                     $("#inpVlrHrsService").val(vlr);
-
-
+                    $("#btndelete").html('<div class="col-lg-2 " style="margin-top:19px"><a href="#" class="btn btn-danger btn-sm deleteServ" style="font-size:small">Delete</a></div>');
+                    $('a.deleteServ').click(function () {
+                        SetService(1);
+                    });
                 });
                 $('a.Country').click(function () {
                     var cod = $(this).parents("tr").find("td").eq(1).html();
@@ -213,7 +220,7 @@
         $("#inpnameService").val('');
         $("#inpVlrHrsService").val('');
         $("#inpPais").val('');
-
+        $("#btndelete").html('');
     }
 
     function SetCountry() {
@@ -357,7 +364,7 @@
                     <div class="col-sm-2">
                         <input id="idcli" type="text" class="form-control" disabled="disabled" />
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-4">
                         <input id="nomcli" type="text" class="form-control" disabled="disabled" />
                     </div>
                 </div>
@@ -381,8 +388,10 @@
                     </div>
                    
                     <div class="col-lg-2 " style="margin-top:19px">
-                        <input type="button" class="btn btn-default" value="Agregar" onclick="SetService();" />
+                        <input type="button" class="btn btn-default" value="Add" onclick="SetService(0);" />
+                        <input type="button" class="btn btn-default" value="Clear" onclick="clearServices();" />
                     </div>
+                    <div id="btndelete"></div>
                     </div>
                 <hr />
              

@@ -19,7 +19,7 @@ namespace Net_Technical_Test_V3.Controllers
             _context = context;
         }
 
-        public ActionResult SetService(int id, int idclient, string Name, string Horavlr, string db)
+        public ActionResult SetService(int id, int idclient, string Name, string Horavlr, string db,int accion)
         {
 
 
@@ -34,14 +34,27 @@ namespace Net_Technical_Test_V3.Controllers
                 }
                 else
                 {
-                    var Service = _context.Services.FirstOrDefault(i => i.Id == id );
-                    if (Service == null)
-                        return NotFound();
 
-                    Service.Name = Name;
-                    Service.hrsUSD = Horavlr;
-                   
-                    _context.Services.Update(Service);
+                    if (accion == 0)
+                    {
+                        var Service = _context.Services.FirstOrDefault(i => i.Id == id);
+                        if (Service == null)
+                            return NotFound();
+
+                        Service.Name = Name;
+                        Service.hrsUSD = Horavlr;
+
+                        _context.Services.Update(Service);
+                    }else
+                    {
+                        var Service = _context.Services.FirstOrDefault(i => i.Id == id);
+                        if (Service == null)
+                            return NotFound();
+
+
+                        _context.Services.Remove(Service);
+                    }
+
                     _context.SaveChanges();
                 }
 
@@ -73,11 +86,13 @@ namespace Net_Technical_Test_V3.Controllers
                 int acc = 0;
                 if (id != 0) { acc = 1; }
 
+                if (accion == 1) { acc = 3; }
 
-                return PartialView("~/Views/Service/ListService.cshtml", ServiceDAO.SetService(Serv, acc));
+                    return PartialView("~/Views/Service/ListService.cshtml", ServiceDAO.SetService(Serv, acc));
             }
 
         }
+      
 
         public ActionResult GetService(string db, int idclient)
         {
