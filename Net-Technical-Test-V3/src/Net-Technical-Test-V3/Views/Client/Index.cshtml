@@ -40,6 +40,11 @@
         var emailtext = $("#inpemail").val();
         var database = $("#ddlDB").val();
 
+        if (nittext == "") { alert("empty nit field"); return; }
+        if (nametext == "") { alert("empty name field"); return; }       
+        if (emailtext == "") { alert("empty email field"); return; }
+        
+
         $.ajax({
             url: '@Url.Action("SetClients", "Client")',
             type: "post",
@@ -124,6 +129,7 @@
         $("#inpemail").val('');
 
     }
+
     function SetService(accion) {
         var id = $("#inpidS").val() == "" ? 0 : $("#inpidS").val();
         var nametext = $("#inpnameService").val();
@@ -132,6 +138,10 @@
 
 
         var database = $("#ddlDB").val();
+
+        if (nametext == "") { alert("empty name field"); return; }
+        if (clienttext == "") { alert("empty Client field"); return; }
+        if (vlrhrstext == "") { alert("empty Hours field"); return; }
 
         $.ajax({
             url: '@Url.Action("SetService", "Service")',
@@ -224,10 +234,15 @@
     }
 
     function SetCountry() {
+
         var id = $("#inpidPais").val() == "" ? 0 : $("#inpidPais").val();
         var pais = $("#inpPais").val();
         var idServ = $("#idServ").val();
         var database = $("#ddlDB").val();
+
+
+        if (pais == "") { alert("empty country field"); return; }
+       
 
         $.ajax({
             url: '@Url.Action("SetCountry", "Country")',
@@ -297,7 +312,7 @@
                 <span class="label label-info">CLIENT</span>
             </div>
             <div class="col-lg-2" style="float:right">
-                <input type="button" class="btn btn-default" value="Cargar Info" onclick="GetClients('Tbl');" />
+                <input type="button" class="btn btn-default" value="Seleccionar Info" onclick="GetClients('Tbl');" />
             </div>
             <div class="col-lg-3" style="float:right">
                 <select id="ddlDB" class="form-control">
@@ -341,7 +356,6 @@
            
             <input type="button" class="btn btn-default" value="Clear" onclick="clearClient();" />
         </div>
-
     </div>
 </div>
 <div id="listClients" style="margin-top:10px"></div>
